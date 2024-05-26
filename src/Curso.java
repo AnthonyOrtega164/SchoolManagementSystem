@@ -5,6 +5,14 @@ public class Curso {
     private int numeroCreditos ;
     private int version ;
 
+    public Curso(String id, String nombre, String descripcion, int numeroCreditos, int version) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.numeroCreditos = numeroCreditos;
+        this.version = version;
+    }
+
     public String getId() {
         return id;
     }

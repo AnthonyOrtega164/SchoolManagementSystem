@@ -1,32 +1,46 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public class GestorAcademico {
-    private ArrayList<Estudiante> estudiantes;
-    private ArrayList<Curso> cursos;
-    private HashMap<Estudiante, Curso> estudianteCursos;
+public class GestorAcademico implements ServiciosAcademicosI {
+    public static ArrayList<Estudiante> estudiantes = new ArrayList<>();
+    public static ArrayList<Curso> cursos = new ArrayList<>();
+    public static HashMap<Estudiante, Curso> estudianteCursos = new HashMap<>();
 
-    public ArrayList<Estudiante> getEstudiantes() {
-        return estudiantes;
+    @Override
+    public void matricularEstudiante(Estudiante estudiante) {
+        estudiante.setEstado("Matriculado");
+        estudiantes.add(estudiante);
+        System.out.println("Se agrego estudiante: " + estudiante.getNombre() + " " + estudiante.getApellido()+" estatus: " + estudiante.getEstado());
     }
 
-    public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    @Override
+    public void agregarCurso(Curso curso) {
+        cursos.add(curso);
+        System.out.println("Se agrego curso: " + curso.getNombre());
     }
 
-    public ArrayList<Curso> getCursos() {
-        return cursos;
+    @Override
+    public void inscribirEstudianteCurso(Estudiante estudiante, String idCurso) {
+        for (Curso curso : cursos) {
+            if (curso.getId().equals(idCurso)) {
+                estudianteCursos.put(estudiante, curso);
+                System.out.println("Se inscribio a estudiante: " + estudiante.getNombre() + " " + estudiante.getApellido());
+            }
+        }
     }
 
-    public void setCursos(ArrayList<Curso> cursos) {
-        this.cursos = cursos;
-    }
+    @Override
+    public void desinscribirEstudianteCurso(String idEstudiante, String idCurso) {
+        Iterator<Map.Entry<Estudiante, Curso>> iterator = estudianteCursos.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Estudiante, Curso> entry = iterator.next();
+            if (entry.getKey().getId().equals(idEstudiante) && entry.getValue().getId().equals(idCurso)) {
+                iterator.remove();
+                System.out.println("Se desinscribio a estudiante: " + idEstudiante);
+            }
+        }
 
-    public HashMap<Estudiante, Curso> getEstudianteCursos() {
-        return estudianteCursos;
-    }
-
-    public void setEstudianteCursos(HashMap<Estudiante, Curso> estudianteCursos) {
-        this.estudianteCursos = estudianteCursos;
     }
 }
